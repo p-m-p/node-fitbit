@@ -1,0 +1,23 @@
+{
+  "name": "node-fitbit",
+  "version": "0.0.0",
+  "description": "Fitbit API client",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/p-m-p/node-fitbit.git"
+  },
+  "keywords": [
+    "fitbit"
+  ],
+  "author": "Phil Parsons",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "75eaae79c2d84ef0df1b024f1723c67014fc4bdb",
+  "devDependencies": {
+    "oauth": "~0.9.10"
+  }
+}
