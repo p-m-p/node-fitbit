@@ -24,4 +24,4 @@
   else {
     module.exports = Activities;
   }
-}())
+}());

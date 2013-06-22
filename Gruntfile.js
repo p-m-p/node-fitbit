@@ -1,5 +1,13 @@
 module.exports = function (grunt) {
   grunt.initConfig({
+    jshint: {
+      options: {
+        laxcomma: true,
+        supernew: true,
+        expr: true
+      },
+      all: ['Gruntfile.js', 'spec/**/*.js', 'src/**/*.js']
+    },
     jasmine_node: {
       specNameMatcher: "spec",
       extensions: 'js',
@@ -18,6 +26,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
-  grunt.registerTask('test', 'jasmine_node');
+  grunt.registerTask('test', ['jshint', 'jasmine_node']);
   grunt.registerTask('default', 'jasmine_node'); // TODO add builds
 };

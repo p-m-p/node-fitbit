@@ -35,7 +35,7 @@ var FitbitApiClient = function (
 
   this.accessToken = accessToken;
   this.accessTokenSecret = accessTokenSecret;
-}
+};
 
 var cp = FitbitApiClient.prototype;
 module.exports = FitbitApiClient;
@@ -63,7 +63,7 @@ cp.apiCall = function (url, callback) {
   var that = this;
 
   if (!this.accessToken || !this.accessTokenSecret) {
-    throw new Error('Authenticate before making API calls')
+    throw new Error('Authenticate before making API calls');
   }
 
   this._oauth.get(url, this.accessToken, this.accessTokenSecret,
@@ -87,7 +87,7 @@ cp.getActivities = function (options, callback) {
   this._apiCall(
       helpers.resourceURL('activities', options.date || new Date)
     , function (err, data) {
-        callback.call(_undefined, err, new Activities(data), data)
+        callback.call(_undefined, err, new Activities(data), data);
       }
   );
 };
@@ -95,8 +95,11 @@ cp.getActivities = function (options, callback) {
 // Helpers
 // ---
 var helpers = {
-  // Returns the API endpoint for a resource
+  // Returns the API endpoint for a `resource` such as 'activities' or 'food'.
+  // If `date` is not supplied todays date will be used.
   resourceURL: function (resource, date) {
+    date || (date = new Date);
+
     return (
       endpoints.resources +
       resource +
@@ -105,8 +108,7 @@ var helpers = {
     );
   },
 
-  // Returns date formatted for making API calls. If `date` is not supplied
-  // todays date will be used
+  // Returns date formatted for making API calls.
   formateDate: function (date) {
     var day, month;
 
