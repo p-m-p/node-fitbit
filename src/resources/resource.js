@@ -1,5 +1,5 @@
 (function () {
-  var Activities, ap;
+  var Resource;
 
   // Activites
   Activities = function (data) {
@@ -24,4 +24,5 @@
   else {
     module.exports = Activities;
   }
+
 }())

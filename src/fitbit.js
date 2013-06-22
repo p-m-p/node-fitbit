@@ -4,6 +4,8 @@ var OAuth = require('OAuth');
 // Resources
 var Activities = require('./resources/activities');
 
+var _undefined = void 0;
+
 // API Endpoints
 var endpoints = {
     resources: 'http://api.fitbit.com/1/user/-/'
@@ -29,66 +31,94 @@ var FitbitApiClient = function (
     , 'HMAC-SHA1'
   );
 
+  // TODO add locale for unit measures
+
   this.accessToken = accessToken;
   this.accessTokenSecret = accessTokenSecret;
 }
 
 var cp = FitbitApiClient.prototype;
+module.exports = FitbitApiClient;
 
 // OAuth flow
 // ---
-cp.getRequestToken = function (response, callback) {
-  var that = this;
 
-  this._oauth.getOAuthRequestToken(function (err, token, secret) {
-    // TODO check for and handle error
-    callback.call(undefined, token, secret);
-  });
+// Fetches a request token and runs callback
+cp.getRequestToken = function (callback) {
+  this._oauth.getOAuthRequestToken(callback);
 };
 
+// Returns the authorization url required for obtaining an access token
 cp.authorizeUrl = function (requestToken) {
   return endpoints.authorize + '?oauth_token=' + requestToken;
 };
 
+// Fetches an access token and runs callback
 cp.getAccessToken = function (token, tokenSecret, verifier, callback) {
-  this._oauth.getOAuthAccessToken(
-      token
-    , tokenSecret
-    , verifier
-    , function (err, accessToken, accessTokenSecret, results) {
-        // TODO handle error
-        callback.call(undefined, accessToken, accessTokenSecret);
-      }
-  );
+  this._oauth.getOAuthAccessToken(token, tokenSecret, verifier, callback);
 };
 
-cp._apiCall = function (url, callback) {
+// Makes an authenticated call to the Fitbit API
+cp.apiCall = function (url, callback) {
   var that = this;
 
   if (!this.accessToken || !this.accessTokenSecret) {
     throw new Error('Authenticate before making API calls')
   }
 
-  this._oauth.get(
-      url
-    , this.accessToken
-    , this.accessTokenSecret
-    , function (err, data, response) {
-        callback.call(that, err, data);
-      }
-  );
+  this._oauth.get(url, this.accessToken, this.accessTokenSecret,
+    function (err, data, response) {
+      callback.call(that, err, data);
+    });
 };
 
 // Resources
 // ---
+
+// Fetches the activities for a given date set in `options`. If
+// `options.date` is not supplied then activities for the current day will
+// be supplied to `callback`
+//
+// `callback` parameters are `error`, `activites` and `data` where `activities`
+// is an Activities resource object and data is the raw response data
 cp.getActivities = function (options, callback) {
+  options || (options = {});
+
   this._apiCall(
-      endpoints.resources + 'activities/date/2013-06-04.json'
+      helpers.resourceURL('activities', options.date || new Date)
     , function (err, data) {
-        // TODO check error
-        callback.call(new Activities(data), data)
+        callback.call(_undefined, err, new Activities(data), data)
       }
   );
 };
 
-module.exports = FitbitApiClient;
+// Helpers
+// ---
+var helpers = {
+  // Returns the API endpoint for a resource
+  resourceURL: function (resource, date) {
+    return (
+      endpoints.resources +
+      resource +
+      '/date/' +
+      this.formatDate(date) + '.json'
+    );
+  },
+
+  // Returns date formatted for making API calls. If `date` is not supplied
+  // todays date will be used
+  formateDate: function (date) {
+    var day, month;
+
+    if (!date instanceof Date) {
+      date = new Date(date);
+    }
+
+    month = date.getMonth();
+    month < 10 && (month = '0' + month);
+    day = date.getDate();
+    day < 10 && (day = '0' + day);
+
+    return date.getFullYear() + '-' + month + '-' + day;
+  }
+};
