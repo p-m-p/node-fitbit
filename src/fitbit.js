@@ -1,5 +1,6 @@
 // Dependencies
-var OAuth = require('OAuth');
+var OAuth = require('OAuth')
+  , _ = require('lodash');
 
 // Resources
 var Activities = require('./resources/activities');
@@ -8,6 +9,7 @@ var _undefined = void 0;
 
 // API Endpoints
 var endpoints = {
+    // TODO allow user id for unauthenticated calls
     resources: 'http://api.fitbit.com/1/user/-/'
   , requestToken: 'http://api.fitbit.com/oauth/request_token'
   , accessToken: 'http://api.fitbit.com/oauth/access_token'
@@ -15,6 +17,10 @@ var endpoints = {
 };
 
 // API Client
+// ---
+//
+// Constructor for a new API Client. `accessToken` and `accessTokenSecret`
+// are only required for pre-authenticated users
 var FitbitApiClient = function (
     consumerKey
   , consumerSecret
@@ -33,6 +39,7 @@ var FitbitApiClient = function (
 
   // TODO add locale for unit measures
 
+  // Set authenticated user access token if set
   this.accessToken = accessToken;
   this.accessTokenSecret = accessTokenSecret;
 };
@@ -82,11 +89,18 @@ cp.apiCall = function (url, callback) {
 // `callback` parameters are `error`, `activites` and `data` where `activities`
 // is an Activities resource object and data is the raw response data
 cp.getActivities = function (options, callback) {
-  options || (options = {});
+  if (_.isFunction(options)) {
+    callback = options;
+    options = {};
+  }
 
-  this._apiCall(
-      helpers.resourceURL('activities', options.date || new Date)
+  this.apiCall(
+      helpers.resourceUrl('activities', options.date)
     , function (err, data) {
+        if (err) {
+          return callback.call(_undefined, err);
+        }
+
         callback.call(_undefined, err, new Activities(data), data);
       }
   );
@@ -97,7 +111,7 @@ cp.getActivities = function (options, callback) {
 var helpers = {
   // Returns the API endpoint for a `resource` such as 'activities' or 'food'.
   // If `date` is not supplied todays date will be used.
-  resourceURL: function (resource, date) {
+  resourceUrl: function (resource, date) {
     date || (date = new Date);
 
     return (
@@ -109,18 +123,19 @@ var helpers = {
   },
 
   // Returns date formatted for making API calls.
-  formateDate: function (date) {
+  formatDate: function (date) {
     var day, month;
 
-    if (!date instanceof Date) {
+    if (!(date instanceof Date)) {
       date = new Date(date);
     }
 
-    month = date.getMonth();
+    month = date.getMonth() + 1;
     month < 10 && (month = '0' + month);
     day = date.getDate();
     day < 10 && (day = '0' + day);
 
+    console.log(date.getFullYear() + '-' + month + '-' + day);
     return date.getFullYear() + '-' + month + '-' + day;
   }
 };
