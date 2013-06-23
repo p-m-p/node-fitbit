@@ -9,7 +9,7 @@ describe('Resources', function () {
     var base;
 
     beforeEach(function () {
-      base = new Resource('{"rootItem": "Hello world!", "summary": {"one": 1}}');
+      base = new Resource({"rootItem": "Hello world!", "summary": {"one": 1}});
     });
 
     it('should get an attribute', function () {
@@ -25,7 +25,7 @@ describe('Resources', function () {
     var activities;
 
     beforeEach(function () {
-      activities = new Activities(fixtures.raw('activities'));
+      activities = new Activities(fixtures.activities);
     });
 
     it('should return steps', function () {
@@ -49,7 +49,7 @@ describe('Resources', function () {
     var sleep;
 
     beforeEach(function () {
-      sleep = new Sleep(fixtures.raw('sleep'));
+      sleep = new Sleep(fixtures.sleep);
     });
 
     it('should return time in bed', function () {

@@ -102,7 +102,7 @@ describe('Fitbit API Client', function () {
       client.getActivities({date: '2013-06-23'}, callback);
 
       expect(callback.calledOn(void 0)).toBe(true);
-      expect(callback.args[0][1] instanceof FitbitModule.Activities).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.resources.Activities).toBe(true);
       expect(callback.args[0][2]).toBe(data);
       authProto.get.restore();
     });
@@ -119,7 +119,7 @@ describe('Fitbit API Client', function () {
       client.getActivities(callback);
 
       expect(callback.calledOn(void 0)).toBe(true);
-      expect(callback.args[0][1] instanceof FitbitModule.Activities).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.resources.Activities).toBe(true);
       expect(callback.args[0][2]).toBe(data);
       authProto.get.restore();
     });
@@ -148,7 +148,7 @@ describe('Fitbit API Client', function () {
       client.getSleep({date: '2013-06-23'}, callback);
 
       expect(callback.calledOn(void 0)).toBe(true);
-      expect(callback.args[0][1] instanceof FitbitModule.Sleep).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.resources.Sleep).toBe(true);
       expect(callback.args[0][2]).toBe(data);
       authProto.get.restore();
     });
@@ -165,7 +165,7 @@ describe('Fitbit API Client', function () {
       client.getSleep(callback);
 
       expect(callback.calledOn(void 0)).toBe(true);
-      expect(callback.args[0][1] instanceof FitbitModule.Sleep).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.resources.Sleep).toBe(true);
       expect(callback.args[0][2]).toBe(data);
       authProto.get.restore();
     });
