@@ -136,6 +136,52 @@ describe('Fitbit API Client', function () {
       expect(callback.calledWithExactly(error)).toBe(true);
       authProto.get.restore();
     });
+
+    it('should fetch sleep for a day', function () {
+      var callback = sinon.spy()
+        , data = fixtures.raw('sleep');
+      sinon.stub(authProto, 'get', function (u, t, ts, cb) {
+        expect(u).toBe('http://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
+
+        cb.call(void 0, null, data);
+      });
+      client.getSleep({date: '2013-06-23'}, callback);
+
+      expect(callback.calledOn(void 0)).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.Sleep).toBe(true);
+      expect(callback.args[0][2]).toBe(data);
+      authProto.get.restore();
+    });
+
+    it('should fetch sleep without options', function () {
+      var callback = sinon.spy()
+        , data = fixtures.raw('sleep')
+        , today = helpers.formatDate(new Date);
+      sinon.stub(authProto, 'get', function (u, t, ts, cb) {
+        expect(u).toBe('http://api.fitbit.com/1/user/-/sleep/date/' + today + '.json');
+
+        cb.call(void 0, null, data);
+      });
+      client.getSleep(callback);
+
+      expect(callback.calledOn(void 0)).toBe(true);
+      expect(callback.args[0][1] instanceof FitbitModule.Sleep).toBe(true);
+      expect(callback.args[0][2]).toBe(data);
+      authProto.get.restore();
+    });
+
+    it('should fail to fetch sleep', function () {
+      var callback = sinon.spy()
+        , error = new Error('Failed to load sleep');
+      sinon.stub(authProto, 'get', function (u, t, ts, cb) {
+        cb.call(void 0, error);
+      });
+      client.getSleep(callback);
+
+      expect(callback.calledOn(void 0)).toBe(true);
+      expect(callback.calledWithExactly(error)).toBe(true);
+      authProto.get.restore();
+    });
   });
 
   describe('helper methods', function () {

@@ -47,6 +47,32 @@ module.exports = {
     }
   },
 
+  sleep: {
+    "sleep": [{
+      "awakeningsCount":13,
+      "duration":26760000,
+      "efficiency":94,
+      "isMainSleep":true,
+      "logId":41050914,
+      "minuteData":[
+        {"dateTime":"23:10:00","value":"2"},
+        {"dateTime":"23:11:00","value":"2"},
+        {"dateTime":"23:12:00","value":"2"}
+      ],
+      "minutesAfterWakeup":0,
+      "minutesAsleep":404,
+      "minutesAwake":25,
+      "minutesToFallAsleep":17,
+      "startTime":"2013-06-18T23:10:00.000",
+      "timeInBed":446
+    }],
+    "summary":{
+      "totalMinutesAsleep":404,
+      "totalSleepRecords":1,
+      "totalTimeInBed":446
+    }
+  },
+
   // Return the data as a raw string
   raw: function (fixture) {
     return JSON.stringify(this[fixture]);
