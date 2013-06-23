@@ -3,7 +3,7 @@ describe('Fitbit API Client', function () {
     , sinon = require('sinon')
     , mocks = require('./mocks')
     , fixtures = require('./fixtures')
-    , FitbitModule = loader.loadModule(__dirname + '/../src/fitbit.js', {
+    , FitbitModule = loader.loadModule(__dirname + '/../lib/fitbit.js', {
         OAuth: mocks.OAuth
       })
     , authProto = mocks.OAuth.OAuth.prototype
