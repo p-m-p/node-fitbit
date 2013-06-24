@@ -234,6 +234,14 @@ describe('Fitbit API Client', function () {
         .toBe('http://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
       expect(helpers.resourceUrl('activities'))
         .toBe('http://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
+      expect(helpers.resourceUrl('bodyweight', 'Sun Oct 1 2013'))
+        .toBe('http://api.fitbit.com/1/user/-/body/log/weight/date/2013-10-01.json');
+      expect(helpers.resourceUrl('bodymeasurements', 'Sun Oct 13 2013'))
+        .toBe('http://api.fitbit.com/1/user/-/body/date/2013-10-13.json');
+      expect(helpers.resourceUrl('bodyfat', 'Sun Aug 21 2009'))
+        .toBe('http://api.fitbit.com/1/user/-/body/log/fat/date/2009-08-21.json');
+      expect(helpers.resourceUrl('foods'))
+        .toBe('http://api.fitbit.com/1/user/-/foods/log/date/' + today + '.json');
     });
   });
 });
