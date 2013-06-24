@@ -1,10 +1,10 @@
-node-fitbit
+Fitbit API Client for Node.js [![Build Status](https://travis-ci.org/p-m-p/node-fitbit.png?branch=master)](https://travis-ci.org/p-m-p/node-fitbit)
 ===
 
 Currently only a read only implementation for reading data from the Fitbit API
 as an authenticated user.
 
-## TODO
+### TODO
 
 I've split this into two sections, top section is what I need to have for the
 project I created this module for and teh latter is what the API supports.
@@ -22,11 +22,11 @@ Supported by API:
 * Collection metadata models
 * Anything else...
 
-## Installation
+### Installation
 
 `npm install fitbit`
 
-## Usage
+### Usage
 
 Below is an example usage for authenticating and making a resource request:
 
