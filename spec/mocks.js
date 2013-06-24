@@ -1,9 +1,12 @@
 var noop = function () {}
   , OAuth = function () {};
 
-OAuth.prototype.getOAuthRequestToken = noop;
-OAuth.prototype.getOAuthAccessToken = noop;
-OAuth.prototype.get = noop;
+OAuth.prototype.getOAuthRequestToken =
+OAuth.prototype.getOAuthAccessToken =
+OAuth.prototype.get =
+OAuth.prototype.setCustomHeader =
+OAuth.prototype.removeCustomHeader =
+  noop;
 
 module.exports = {
   OAuth: { OAuth: OAuth }

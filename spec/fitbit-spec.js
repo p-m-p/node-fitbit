@@ -69,9 +69,45 @@ describe('Fitbit API Client', function () {
       client = new FitbitModule.FitbitApiClient(
           'consumerKey'
         , 'consumerSecret'
-        , 'accessToken'
-        , 'accessTokenSecret'
+        , {
+              accessToken: 'accessToken'
+            , accessTokenSecret: 'accessTokenSecret'
+          }
       );
+    });
+
+    it('should set the unit measure', function () {
+      var oa = client._oauth;
+      sinon.stub(authProto, 'setCustomHeader');
+      sinon.stub(authProto, 'removeCustomHeader');
+
+      expect(client.setUnitMeasure('en_GB')).toBe(client);
+      expect(oa.setCustomHeader.calledWithExactly('Accept-Language', 'en_GB'))
+        .toBe(true);
+
+      oa.setCustomHeader.reset();
+      expect(client.setUnitMeasure('en_US')).toBe(client);
+      expect(oa.setCustomHeader.calledWithExactly('Accept-Language', 'en_US'))
+        .toBe(true);
+
+      oa.setCustomHeader.reset();
+      expect(client.setUnitMeasure(null)).toBe(client);
+      expect(oa.setCustomHeader.called).toBe(false);
+      expect(oa.removeCustomHeader.calledWithExactly('Accept-Language'))
+        .toBe(true);
+
+      oa.removeCustomHeader.reset();
+      expect(client.setUnitMeasure()).toBe(client);
+      expect(oa.setCustomHeader.called).toBe(false);
+      expect(oa.removeCustomHeader.calledWithExactly('Accept-Language'))
+        .toBe(true);
+
+      try {
+        client.setUnitMeasure('parp');
+      }
+      catch (ex) {
+        expect(ex.message).toBe('Unit Measure type must be en_US, en_GB or null');
+      }
     });
 
     it('should make an API call', function () {
@@ -185,7 +221,6 @@ describe('Fitbit API Client', function () {
   });
 
   describe('helper methods', function () {
-
     it('should format a date', function () {
       expect(helpers.formatDate('Sun Jun 23 2013')).toBe('2013-06-23');
       expect(helpers.formatDate('Sun Jun 8 2013')).toBe('2013-06-08');
@@ -197,7 +232,7 @@ describe('Fitbit API Client', function () {
 
       expect(helpers.resourceUrl('sleep', 'Sun Jun 23 2013'))
         .toBe('http://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
-      expect(helpers.resourceUrl('activities', 'Sun Jun 23 2013'))
+      expect(helpers.resourceUrl('activities'))
         .toBe('http://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
     });
   });
