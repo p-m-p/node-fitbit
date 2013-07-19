@@ -1,22 +1,22 @@
 Fitbit API Client for Node.js [![Build Status](https://travis-ci.org/p-m-p/node-fitbit.png?branch=master)](https://travis-ci.org/p-m-p/node-fitbit)
 ===
 
-Currently only a read only implementation for reading data from the Fitbit API
+Currently a read only implementation for reading data from the Fitbit API
 as an authenticated user.
 
 ### TODO
 
 I've split this into two sections, top section is what I need to have for the
-project I created this module for and teh latter is what the API supports.
+project I created this module for and the latter is what the API supports.
 
 Needed by me:
 
 * Add user model
 * Add time series data for models
+* Allow data models to be updated("logged") and deleted via the API
 
 Supported by API:
 
-* Allow data models to be updated("logged") and deleted via the API
 * Add Blood pressure, heart rate, glucose resource models
 * Add goals for all models that support them
 * Collection metadata models
@@ -56,6 +56,7 @@ app.get('/', function (req, res) {
       , requestTokenSecret: tokenSecret
     };
     res.redirect(client.authorizeUrl(token));
+  });
 });
 
 // On return from the authorization
@@ -103,7 +104,7 @@ app.get('/stats', function (req, res) {
     }
 
     // `activities` is a Resource model
-    res.send('Total steps today: ' + activites.steps());
+    res.send('Total steps today: ' + activities.steps());
   });
 });
 ```
