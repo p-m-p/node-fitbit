@@ -4,9 +4,9 @@ describe('Fitbit API Client', function () {
     , mocks = require('./mocks')
     , fixtures = require('./fixtures')
     , FitbitModule = loader.loadModule(__dirname + '/../lib/fitbit.js', {
-        OAuth: mocks.OAuth
+        oauth: mocks.oauth
       })
-    , authProto = mocks.OAuth.OAuth.prototype
+    , authProto = mocks.oauth.OAuth.prototype
     , helpers = FitbitModule.helpers
     , client;
 

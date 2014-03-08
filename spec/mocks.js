@@ -9,5 +9,5 @@ OAuth.prototype.removeCustomHeader =
   noop;
 
 module.exports = {
-  OAuth: { OAuth: OAuth }
+  oauth: { OAuth: OAuth }
 };
