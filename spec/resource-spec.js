@@ -3,6 +3,7 @@ describe('Resources', function () {
     , Resource = require(libPath + 'resource')
     , Activities = require(libPath + 'activities')
     , Sleep = require(libPath + 'sleep')
+    , Devices = require(libPath + 'devices')
     , fixtures = require('./fixtures');
 
   describe('base resource', function () {
@@ -66,5 +67,15 @@ describe('Resources', function () {
         , mins: 44
       });
     });
+  });
+
+  describe('devices', function () {
+    var devices;
+
+    beforeEach(function () {
+      devices = new Devices(fixtures.devices);
+    });
+
+    it('should return the correct device version');
   });
 });
