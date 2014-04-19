@@ -73,6 +73,23 @@ module.exports = {
     }
   },
 
+  devices: [
+    {
+      "battery":"High",
+      "id":"123456",
+      "lastSyncTime":"2011-08-26T11:19:03.000",
+      "type":"TRACKER",
+      "deviceVersion":"Ultra"
+    },
+    {
+      "battery":"Full",
+      "id":"123457",
+      "lastSyncTime":"2011-08-26T11:19:03.000",
+      "type":"TRACKER",
+      "deviceVersion":"Flex"
+    }
+  ],
+
   // Return the data as a raw string
   raw: function (fixture) {
     return JSON.stringify(this[fixture]);
