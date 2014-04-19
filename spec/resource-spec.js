@@ -76,6 +76,8 @@ describe('Resources', function () {
       devices = new Devices(fixtures.devices);
     });
 
-    it('should return the correct device version');
+    it('should return the correct device version', function () {
+      expect(devices.device('Flex').id).toBe('123457');
+    });
   });
 });
