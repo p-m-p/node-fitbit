@@ -31,7 +31,7 @@ describe('Fitbit API Client', function () {
 
     it('should return the authorization url', function () {
       expect(client.authorizeUrl('token'))
-        .toBe('http://www.fitbit.com/oauth/authorize?oauth_token=token');
+        .toBe('https://www.fitbit.com/oauth/authorize?oauth_token=token');
     });
 
     it('should get an access token', function () {
@@ -56,7 +56,7 @@ describe('Fitbit API Client', function () {
 
     it('should error trying to make an unauthorized API call', function () {
       try {
-        client.apiCall('http://api.endpoint', function () {});
+        client.apiCall('https://api.endpoint', function () {});
       }
       catch (ex) {
         expect(ex.message).toBe('Authenticate before making API calls');
@@ -114,13 +114,13 @@ describe('Fitbit API Client', function () {
       var callback = sinon.spy()
         , data = '{ "data": ["one", "two", "three"] }';
       sinon.stub(authProto, 'get', function (u, t, ts, cb) {
-        expect(u).toBe('http://api.endpoint');
+        expect(u).toBe('https://api.endpoint');
         expect(t).toBe('accessToken');
         expect(ts).toBe('accessTokenSecret');
 
         cb.call(void 0, null, data);
       });
-      client.apiCall('http://api.endpoint', callback);
+      client.apiCall('https://api.endpoint', callback);
 
       expect(callback.calledWith(null, data)).toBe(true);
       expect(callback.calledOn(client)).toBe(true);
@@ -131,7 +131,7 @@ describe('Fitbit API Client', function () {
       var callback = sinon.spy()
         , data = fixtures.raw('activities');
       sinon.stub(authProto, 'get', function (u, t, ts, cb) {
-        expect(u).toBe('http://api.fitbit.com/1/user/-/activities/date/2013-06-23.json');
+        expect(u).toBe('https://api.fitbit.com/1/user/-/activities/date/2013-06-23.json');
 
         cb.call(void 0, null, data);
       });
@@ -148,7 +148,7 @@ describe('Fitbit API Client', function () {
         , data = fixtures.raw('activities')
         , today = helpers.formatDate(new Date);
       sinon.stub(authProto, 'get', function (u, t, ts, cb) {
-        expect(u).toBe('http://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
+        expect(u).toBe('https://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
 
         cb.call(void 0, null, data);
       });
@@ -177,7 +177,7 @@ describe('Fitbit API Client', function () {
       var callback = sinon.spy()
         , data = fixtures.raw('sleep');
       sinon.stub(authProto, 'get', function (u, t, ts, cb) {
-        expect(u).toBe('http://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
+        expect(u).toBe('https://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
 
         cb.call(void 0, null, data);
       });
@@ -194,7 +194,7 @@ describe('Fitbit API Client', function () {
         , data = fixtures.raw('sleep')
         , today = helpers.formatDate(new Date);
       sinon.stub(authProto, 'get', function (u, t, ts, cb) {
-        expect(u).toBe('http://api.fitbit.com/1/user/-/sleep/date/' + today + '.json');
+        expect(u).toBe('https://api.fitbit.com/1/user/-/sleep/date/' + today + '.json');
 
         cb.call(void 0, null, data);
       });
@@ -231,17 +231,17 @@ describe('Fitbit API Client', function () {
       var today = helpers.formatDate(new Date);
 
       expect(helpers.resourceUrl('sleep', 'Sun Jun 23 2013'))
-        .toBe('http://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
+        .toBe('https://api.fitbit.com/1/user/-/sleep/date/2013-06-23.json');
       expect(helpers.resourceUrl('activities'))
-        .toBe('http://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
+        .toBe('https://api.fitbit.com/1/user/-/activities/date/' + today + '.json');
       expect(helpers.resourceUrl('bodyweight', 'Sun Oct 1 2013'))
-        .toBe('http://api.fitbit.com/1/user/-/body/log/weight/date/2013-10-01.json');
+        .toBe('https://api.fitbit.com/1/user/-/body/log/weight/date/2013-10-01.json');
       expect(helpers.resourceUrl('bodymeasurements', 'Sun Oct 13 2013'))
-        .toBe('http://api.fitbit.com/1/user/-/body/date/2013-10-13.json');
+        .toBe('https://api.fitbit.com/1/user/-/body/date/2013-10-13.json');
       expect(helpers.resourceUrl('bodyfat', 'Sun Aug 21 2009'))
-        .toBe('http://api.fitbit.com/1/user/-/body/log/fat/date/2009-08-21.json');
+        .toBe('https://api.fitbit.com/1/user/-/body/log/fat/date/2009-08-21.json');
       expect(helpers.resourceUrl('foods'))
-        .toBe('http://api.fitbit.com/1/user/-/foods/log/date/' + today + '.json');
+        .toBe('https://api.fitbit.com/1/user/-/foods/log/date/' + today + '.json');
     });
   });
 });
