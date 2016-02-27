@@ -20,7 +20,7 @@ describe('Fitbit API Client', function () {
 
     it('should get a request token', function () {
       var callback = sinon.spy();
-      sinon.stub(authProto, 'getOAuthRequestToken', function (cb) {
+      sinon.stub(authProto, 'getOAuthRequestToken', function (extra, cb) {
         cb.call(void 0, null, 'token', 'tokenSecret');
       });
       client.getRequestToken(callback);
